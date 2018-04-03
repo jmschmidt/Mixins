@@ -1,0 +1,77 @@
+@mixin absoluteCenter {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+@mixin trans($sec: 0.2s) {
+    -webkit-transition: all $sec ease-out;
+       -moz-transition: all $sec ease-out;
+        -ms-transition: all $sec ease-out;
+         -o-transition: all $sec ease-out;
+            transition: all $sec ease-out;
+}
+
+/* Lightens background color on hover */
+@mixin hovLight ($color) {
+    background: $color;
+    &:hover {
+        background: $color + 30;
+    }
+}
+
+/* Darkens background color on hover */
+@mixin hovDark ($color) {
+    background: $color;
+    &:hover {
+        background: $color - 30;
+    }
+}
+
+/* REMS with a PX Fallback */
+@function calculateRem($size) {
+    $remSize: $size / 16px;
+    @return $remSize * 1rem;
+}
+
+@mixin font-size($size) {
+    font-size: $size;
+    font-size: calculateRem($size);
+}
+
+@mixin clearfix {
+    &::after {
+        content: "";
+        display: table;
+        clear: both;
+    }
+}
+
+// Media Query Manager 
+/*
+    0-600: Phone
+    600-900: Tablet Portrait
+    900-1200: Tablet Landscape
+    1200-1800: Default
+    1800+: Big Desktop
+    $breakpoint arguments:
+    - phone
+    - tab-port
+    - tab-land
+    - big-desktop
+*/
+@mixin respond($breakpoint) {
+    @if $breakpoint == phone {
+        @media only screen and (max-width: 37.5em) { @content; } //600px
+    }
+    @if $breakpoint == tab-port {
+        @media only screen and (max-width: 56.25em) { @content; } //900px
+    }
+    @if $breakpoint == tab-land {
+        @media only screen and (max-width: 75em) { @content; } //1200px
+    }
+    @if $breakpoint == big-desktop {
+        @media only screen and (min-width: 112.5em) { @content; } //1800px
+    }
+}
